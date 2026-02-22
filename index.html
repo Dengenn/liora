@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get Well Soon, Liora 💕</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffcce6 50%, #ffb3d9 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating hearts background */
+        .hearts-container {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 105, 180, 0.4);
+            animation: float 15s infinite ease-in-out;
+            font-size: 20px;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Card Container */
+        .card-wrapper {
+            perspective: 1000px;
+            z-index: 10;
+        }
+
+        .card {
+            width: 420px;
+            height: 560px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(255, 105, 180, 0.4);
+            overflow: hidden;
+        }
+
+        /* Front of Card */
+        .card-front {
+            background: linear-gradient(145deg, #fff0f5 0%, #ffe4e1 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            border: 3px solid rgba(255, 182, 193, 0.6);
+        }
+
+        .floral-border {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .floral-border::before,
+        .floral-border::after {
+            content: '🌸';
+            position: absolute;
+            font-size: 40px;
+            animation: pulse 2s infinite;
+        }
+
+        .floral-border::before {
+            top: 20px;
+            left: 20px;
+        }
+
+        .floral-border::after {
+            bottom: 20px;
+            right: 20px;
+            transform: rotate(180deg);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .main-heart {
+            font-size: 100px;
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+            filter: drop-shadow(0 10px 20px rgba(255, 105, 180, 0.3));
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .front-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 48px;
+            color: #d63384;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .front-subtitle {
+            font-size: 18px;
+            color: #c71585;
+            opacity: 0.8;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .click-hint {
+            position: absolute;
+            bottom: 30px;
+            font-size: 14px;
+            color: #db7093;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Back of Card */
+        .card-back {
+            background: linear-gradient(145deg, #fff5f7 0%, #ffeef8 100%);
+            transform: rotateY(180deg);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 3px solid rgba(255, 182, 193, 0.6);
+        }
+
+        .back-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 36px;
+            color: #d63384;
+            margin-bottom: 5px;
+        }
+
+        .divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff69b4, transparent);
+            margin: 0 auto;
+        }
+
+        .message-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .message-text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #8b4513;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .highlight {
+            color: #d63384;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 20px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 28px;
+            color: #d63384;
+        }
+
+        .kisses {
+            text-align: center;
+            font-size: 24px;
+            margin-top: 10px;
+            letter-spacing: 10px;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .decorative-element {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.2;
+        }
+
+        .top-left { top: 20px; left: 20px; }
+        .top-right { top: 20px; right: 20px; }
+        .bottom-left { bottom: 20px; left: 20px; }
+        .bottom-right { bottom: 20px; right: 20px; }
+
+        /* Sparkle effect on hover */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: sparkle-anim 1s forwards;
+        }
+
+        @keyframes sparkle-anim {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .card {
+                width: 350px;
+                height: 470px;
+            }
+            .front-title {
+                font-size: 40px;
+            }
+            .main-heart {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Card -->
+    <div class="card-wrapper">
+        <div class="card" id="card">
+            <!-- Front -->
+            <div class="card-face card-front">
+                <div class="floral-border"></div>
+                <div class="main-heart">💖</div>
+                <h1 class="front-title">Get Well Soon</h1>
+                <p class="front-subtitle">My Dearest Liora</p>
+                <p class="click-hint">✨ Click to open ✨</p>
+            </div>
+
+            <!-- Back -->
+            <div class="card-face card-back">
+                <div class="decorative-element top-left">🌷</div>
+                <div class="decorative-element top-right">💕</div>
+                <div class="decorative-element bottom-left">✨</div>
+                <div class="decorative-element bottom-right">🌸</div>
+
+                <div class="back-header">
+                    <h2 class="back-title">To My Liora</h2>
+                    <div class="divider"></div>
+                </div>
+
+                <div class="message-content">
+                    <p class="message-text">
+                        My love,<br><br>
+                        Even on days when you're not feeling your best, 
+                        you remain the <span class="highlight">brightest light</span> in my life.
+                        <br><br>
+                        I wish I could take away every ache and replace it with 
+                        <span class="highlight">warmth, comfort, and endless hugs</span>.
+                        <br><br>
+                        Rest easy, my beautiful girl. I'm here for every step 
+                        of your recovery, bringing you tea, love, and all the 
+                        <span class="highlight">pink vibes</span> your heart desires.
+                    </p>
+                    
+                    <div class="signature">
+                        All my love,<br>
+                        Your devoted one
+                    </div>
+                    
+                    <div class="kisses">💋 💋 💋</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Create floating hearts
+        const heartsContainer = document.getElementById('heartsContainer');
+        const heartSymbols = ['💕', '💖', '💗', '💓', '💝', '🌸', '✨'];
+        
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.animationDelay = Math.random() * 5 + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heartsContainer.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 20000);
+        }
+
+        // Create initial hearts
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createHeart, i * 300);
+        }
+
+        // Continue creating hearts
+        setInterval(createHeart, 2000);
+
+        // Card flip interaction
+        const card = document.getElementById('card');
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+            createSparkles();
+        });
+
+        // Sparkle effect
+        function createSparkles() {
+            const rect = card.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            for (let i = 0; i < 12; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                const angle = (i / 12) * Math.PI * 2;
+                const distance = 100 + Math.random() * 50;
+                sparkle.style.left = centerX + 'px';
+                sparkle.style.top = centerY + 'px';
+                sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+                sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        }
+
+        // 3D tilt effect on mouse move
+        document.addEventListener('mousemove', (e) => {
+            if (window.innerWidth < 768) return;
+            
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            if (!card.classList.contains('flipped')) {
+                card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
+        });
+
+        // Reset tilt when mouse leaves
+        document.addEventListener('mouseleave', () => {
+            if (!card.classList.contains('flipped')) {
+                card.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            }
+        });
+    </script>
+</body>
+</html>
